@@ -41,8 +41,17 @@ kt_ksp_plugin(
     name = "autoservice",
     processor_class = "dev.zacsweers.autoservice.ksp.AutoServiceSymbolProcessor$Provider",
     deps = [
-        "@maven//:dev_zacsweers_autoservice_auto_service_ksp",
         "@maven//:com_google_auto_service_auto_service_annotations",
+        "@maven//:dev_zacsweers_autoservice_auto_service_ksp",
+    ],
+)
+
+java_plugin(
+    name = "motif",
+    processor_class = "motif.compiler.Processor",
+    deps = [
+        "@maven//:com_uber_motif_motif",
+        "@maven//:com_uber_motif_motif_compiler",
     ],
 )
 
@@ -56,12 +65,14 @@ kt_jvm_library(
         "//:moshi-kotlin-codegen",
         "//:autovalue",
         "//:autoservice",
+        "//:motif",
     ],
     deps = [
         "@maven//:com_google_auto_service_auto_service_annotations",
         "@maven//:com_google_auto_value_auto_value_annotations",
         "@maven//:com_squareup_moshi_moshi",
         "@maven//:com_squareup_moshi_moshi_kotlin",
+        "@maven//:com_uber_motif_motif",
     ],
 )
 
