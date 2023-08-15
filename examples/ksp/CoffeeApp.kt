@@ -15,22 +15,19 @@
  */
 package coffee
 
-import com.squareup.moshi.Moshi
+import com.google.gson.Gson
+import java.lang.Appendable
 
 class CoffeeApp {
 
   companion object {
 
-    private val adapter = CoffeeAppModelJsonAdapter(Moshi.Builder().build())
-    private val d = AutoValue_CoffeeAppJavaModel.Builder()
-      .setCoffeeAppModel(CoffeeAppModel("1"))
-      .build()
-
     @JvmStatic
     fun main(args: Array<String>) {
-      println(
-        adapter.toJson(d.coffeeAppModel())
-      )
+      val obj: Object = Object()
+      val sb: Appendable = StringBuilder("")
+      val gson = Gson()
+      gson.toJson(obj, sb)
     }
   }
 }

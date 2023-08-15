@@ -27,6 +27,7 @@ targets:
   //src/main/kotlin/io/bazel/kotlin/compiler:compiler_for_ide
   //kotlin:stardoc
   //src/main/starlark/core/repositories:all
+  //examples/ksp:*
 
 test_sources:
   src/test/*

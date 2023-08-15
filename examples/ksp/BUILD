@@ -21,19 +21,35 @@ package(default_visibility = ["//visibility:public"])
 define_kt_toolchain(name = "kotlin_toolchain")
 
 java_plugin(
-    name = "autovalue",
+    name = "autoservice",
     generates_api = True,
-    processor_class = "com.google.auto.value.processor.AutoValueProcessor",
-    deps = ["@maven//:com_google_auto_value_auto_value"],
+    processor_class = "com.google.auto.service.processor.AutoServiceProcessor",
+    deps = ["@maven//:com_google_auto_service_auto_service"],
 )
 
 kt_ksp_plugin(
-    name = "moshi-kotlin-codegen",
-    processor_class = "com.squareup.moshi.kotlin.codegen.ksp.JsonClassSymbolProcessorProvider",
+    name = "coffee_proc_ksp_plugin",
+    processor_class = "coffee.proc.CoffeeProcessorProvider",
     deps = [
-        "@maven//:com_squareup_moshi_moshi",
-        "@maven//:com_squareup_moshi_moshi_kotlin",
-        "@maven//:com_squareup_moshi_moshi_kotlin_codegen",
+        ":coffee_proc",
+        "@maven//:com_google_code_gson_gson",
+        "@maven//:com_google_devtools_ksp_symbol_processing_api",
+    ],
+)
+
+kt_jvm_library(
+    name = "coffee_proc",
+    srcs = glob([
+        "proc/*.kt",
+        "proc/*.java",
+    ]),
+    plugins = [
+        "//:autoservice",
+    ],
+    deps = [
+        "@maven//:com_google_auto_service_auto_service_annotations",
+        "@maven//:com_google_code_gson_gson",
+        "@maven//:com_google_devtools_ksp_symbol_processing_api",
     ],
 )
 
@@ -44,13 +60,10 @@ kt_jvm_library(
         "*.java",
     ]),
     plugins = [
-        "//:moshi-kotlin-codegen",
-        "//:autovalue",
+        "//:coffee_proc_ksp_plugin",
     ],
     deps = [
-        "@maven//:com_google_auto_value_auto_value_annotations",
-        "@maven//:com_squareup_moshi_moshi",
-        "@maven//:com_squareup_moshi_moshi_kotlin",
+        "@maven//:com_google_code_gson_gson",
     ],
 )
 
