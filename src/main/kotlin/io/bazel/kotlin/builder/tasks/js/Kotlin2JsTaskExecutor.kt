@@ -49,8 +49,9 @@ class Kotlin2JsTaskExecutor @Inject constructor(
     val args = mutableListOf<String>().also {
       it.addAll(passThroughFlagsList)
       it.addAll("-libraries", inputs.librariesList.joinToString(":"))
-      it.addAll("-output", outputs.js)
-      it.addAll("-Xuse-deprecated-legacy-compiler")
+      it.addAll("-Xir-produce-js")
+      it.addAll("-ir-output-dir", outputs.js)
+      it.addAll("-ir-output-name", outputs.js)
       it.addAll(inputs.kotlinSourcesList)
     }
     context.whenTracing { printLines("js compile args", args) }
